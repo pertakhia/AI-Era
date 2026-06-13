@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>AI ERA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="game-container">
+
+  <!-- ================= HUD ================= -->
+  <div id="hud" class="fade-target">
+
+    <div id="health-wrap" class="panel">
+      <div class="row"><span class="ttl">BASE INTEGRITY · <b id="base-mk" style="color:var(--cyan);font-family:'Orbitron';font-size:11px">Mk.1</b></span><span class="num" id="health-num">1000 / 1000</span></div>
+      <div class="bar"><i id="health-bar" style="width:100%"></i></div>
+    </div>
+
+    <div id="shield-wrap" class="panel">
+      <div class="row"><span class="ttl">AEGIS SHIELD</span><span class="num" id="shield-status">READY · 100%</span></div>
+      <div class="bar"><i id="shield-bar" style="width:100%"></i></div>
+      <button id="shield-btn">RAISE SHIELD <span class="kk">SPACE</span></button>
+    </div>
+
+    <div id="topbar">
+      <div class="stat panel" id="level-stat"><span class="label">Level</span><span class="val mono" id="level-val">1 / 3</span></div>
+      <div class="stat panel" id="wave-stat"><span class="label">Wave</span><span class="val mono" id="wave-val">1 / 3</span></div>
+      <div class="stat panel" id="res-stat"><span class="label">Resources</span><span class="val mono" id="res-val">220</span></div>
+    </div>
+
+    <div id="threat-wrap" class="panel">
+      <div class="row"><span class="ttl">AI THREAT</span><span id="threat-label">DORMANT</span></div>
+      <div class="bar"><i id="threat-bar" style="width:0%"></i></div>
+      <div id="threat-hint">The AI watches. Spend wisely; do not waste shots.</div>
+      <div id="resist-chips">
+        <span class="chip" id="chip-kin">KINETIC <b id="resist-kin">0%</b></span>
+        <span class="chip" id="chip-en">ENERGY <b id="resist-en">0%</b></span>
+      </div>
+    </div>
+
+    <div id="adapt-banner"></div>
+
+    <div id="abilities">
+      <button class="ability" id="ab-orbital"><span class="cd"></span><span class="akey">Q</span><span class="aname">ORBITAL</span><span class="cdnum"></span></button>
+      <button class="ability" id="ab-overdrive"><span class="cd"></span><span class="akey">E</span><span class="aname">OVERDRIVE</span><span class="cdnum"></span></button>
+      <button class="ability" id="ab-emp"><span class="cd"></span><span class="akey">R</span><span class="aname">EMP</span><span class="cdnum"></span></button>
+    </div>
+
+    <div id="buildmode"></div>
+    <div id="toast"></div>
+
+    <button id="sound-btn"><span class="ico">♫</span><span class="lbl">SOUND ON</span></button>
+
+    <div id="dock"></div>
+
+    <div id="controls">
+      <b>COMMAND</b><br>
+      <span class="k">MOVE</span> aim base cannon<br>
+      <span class="k">CLICK</span> fire / place weapon<br>
+      <span class="k">1–5</span> select weapon<br>
+      <span class="k">Q E R</span> orbital · overdrive · EMP<br>
+      <span class="k">SPACE</span> raise / lower shield<br>
+      <span class="k">ESC</span> cancel build
+    </div>
+  </div>
+
+  <div id="screen-flash"></div>
+
+  <!-- ================= START ================= -->
+  <div id="start" class="screen">
+    <div class="kicker">DEFENSE PROTOCOL ONLINE</div>
+    <h1>AI&nbsp;ERA</h1>
+    <div class="tagline">HOLD THE LINE · OUTBUILD THE SWARM</div>
+    <p>A rogue intelligence is throwing waves of machines at your core. Earn resources from every kill and pour them into an escalating arsenal — turrets, cannons, lasers, and shields.</p>
+    <p class="dim">But the AI <b style="color:var(--magenta)">adapts</b>: lean on one damage type and the swarm grows resistant to it — so diversify your arsenal. Fight back with <b style="color:var(--amber)">Orbital Strikes</b>, <b style="color:var(--cyan)">Overdrive</b>, and an <b style="color:#9b6bff">EMP</b> (Q / E / R), and raise your <b style="color:var(--cyan)">Aegis shield</b> (Space) to soak incoming fire.</p>
+    <div class="legend">
+      <div class="item"><span class="sw" style="background:#8b97b5;color:#8b97b5"></span>Drone</div>
+      <div class="item"><span class="sw" style="background:#6fe0ff;color:#6fe0ff"></span>Skitter</div>
+      <div class="item"><span class="sw" style="background:#ff8b5c;color:#ff8b5c"></span>Sniper</div>
+      <div class="item"><span class="sw" style="background:#b56fff;color:#b56fff"></span>Juggernaut</div>
+      <div class="item"><span class="sw" style="background:#49f5a0;color:#49f5a0"></span>Splitter</div>
+      <div class="item"><span class="sw" style="background:#ffd24d;color:#ffd24d"></span>Disruptor</div>
+      <div class="item"><span class="sw" style="background:#ff5ce0;color:#ff5ce0"></span>Wraith (air)</div>
+      <div class="item"><span class="sw" style="background:#ff3b5c;color:#ff3b5c"></span>Overmind</div>
+    </div>
+    <button class="btn" id="start-btn">INITIATE DEFENSE</button>
+  </div>
+
+  <!-- ================= LEVEL TRANSITION ================= -->
+  <div id="transition" class="screen">
+    <div class="kicker" id="tr-kicker">LEVEL SECURED</div>
+    <h2 id="tr-title">THE SWARM LEARNS</h2>
+    <p id="tr-blurb"></p>
+    <div class="stats-row">
+      <div class="s"><span class="n" id="tr-reward">+0</span><span class="l">Bonus Resources</span></div>
+      <div class="s"><span class="n" id="tr-res">0</span><span class="l">Total Resources</span></div>
+    </div>
+    <button class="btn" id="transition-btn">DEPLOY TO NEXT WAVE</button>
+  </div>
+
+  <!-- ================= GAME OVER ================= -->
+  <div id="gameover" class="screen">
+    <div class="kicker" style="color:var(--red)">CORE BREACHED</div>
+    <h1>DEFENSES FAILED</h1>
+    <p class="dim">The collective overran your base. The AI Era begins without you.</p>
+    <div class="stats-row">
+      <div class="s"><span class="n" id="go-level" style="color:var(--red)">1</span><span class="l">Level Reached</span></div>
+      <div class="s"><span class="n" id="go-wave" style="color:var(--red)">1</span><span class="l">Wave Reached</span></div>
+    </div>
+    <button class="btn danger" id="gameover-btn">REBOOT &amp; RETRY</button>
+  </div>
+
+  <!-- ================= VICTORY ================= -->
+  <div id="victory" class="screen">
+    <div class="kicker" style="color:var(--green)">OVERMIND TERMINATED</div>
+    <h1>AI ERA SURVIVED</h1>
+    <p class="dim">Three levels held. The swarm is broken and your core still burns bright.</p>
+    <div class="stats-row">
+      <div class="s"><span class="n" id="vic-hp" style="color:var(--green)">100%</span><span class="l">Base Integrity</span></div>
+      <div class="s"><span class="n" id="vic-res" style="color:var(--green)">0</span><span class="l">Resources Banked</span></div>
+    </div>
+    <button class="btn" id="victory-btn">DEFEND AGAIN</button>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/entities.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
